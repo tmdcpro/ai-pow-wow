@@ -18,3 +18,38 @@ export interface Reviewer {
         details?: string;
     }[];
 }
+
+export interface ProjectTask {
+    id: string;
+    title: string;
+    description: string;
+    base: 'pending' | 'first' | 'second' | 'third' | 'home';
+    status: 'todo' | 'in-progress' | 'review' | 'done';
+    assignedAgents: string[];
+    deliverables: Deliverable[];
+    tests: TestCriteria[];
+    createdAt: number;
+    updatedAt: number;
+}
+
+export interface Deliverable {
+    id: string;
+    name: string;
+    status: 'pending' | 'in-progress' | 'completed';
+    verificationMethod: string;
+}
+
+export interface TestCriteria {
+    id: string;
+    description: string;
+    method: 'manual' | 'automated';
+    status: 'not-run' | 'passed' | 'failed';
+}
+
+export interface ProjectDocument {
+    type: 'prd' | 'spec' | 'custom';
+    title: string;
+    content: string;
+    lastUpdated: number;
+}
+

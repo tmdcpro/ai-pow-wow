@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
-import type { Reviewer } from '../types';
+import type { Reviewer, ProjectTask } from '../types';
 
 const SOCKET_URL = 'http://localhost:3000';
 
 export function useSocket() {
     const [socket, setSocket] = useState<Socket | null>(null);
     const [reviewers, setReviewers] = useState<Reviewer[]>([]);
+    const [tasks, setTasks] = useState<ProjectTask[]>([]);
     const [isConnected, setIsConnected] = useState(false);
 
     useEffect(() => {
@@ -26,6 +27,10 @@ export function useSocket() {
             setReviewers(data);
         });
 
+        newSocket.on('tasks_update', (data: ProjectTask[]) => {
+            setTasks(data);
+        });
+
         setSocket(newSocket);
 
         return () => {
@@ -33,5 +38,5 @@ export function useSocket() {
         };
     }, []);
 
-    return { socket, reviewers, isConnected };
+    return { socket, reviewers, tasks, isConnected };
 }
